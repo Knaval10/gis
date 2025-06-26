@@ -1,7 +1,7 @@
 import ChevronLeft from "#assets/dynamic/ChevronLeft";
 import { navData } from "#lib/constants/navbarData";
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import companyLogo from "#assets/icons/naxa-logo.png";
 import RightArrow from "#assets/dynamic/RightArrow";
 import Button from "#components/common/Button";
@@ -21,7 +21,6 @@ export interface NavItemType {
 }
 
 const Navbar = ({}) => {
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const menuRef = useRef<HTMLLIElement>(null);

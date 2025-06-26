@@ -8,11 +8,18 @@ import {
   MapPage,
   PortfolioPage,
 } from "./routes";
+import PageNotFound from "#components/common/PageNotFound";
+import ErrorBoundary from "#components/common/ErrorBoundary";
 
 export const router = createBrowserRouter([
   {
+    path: "*",
+    Component: PageNotFound,
+  },
+  {
     path: "/",
     Component: Layout,
+    ErrorBoundary: ErrorBoundary,
     children: [
       {
         index: true,
@@ -37,9 +44,11 @@ export const router = createBrowserRouter([
   {
     path: "/form",
     Component: FormPage,
+    ErrorBoundary: ErrorBoundary,
   },
   {
     path: "/map",
     Component: MapPage,
+    ErrorBoundary: ErrorBoundary,
   },
 ]);

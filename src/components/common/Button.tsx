@@ -5,12 +5,19 @@ interface ButtonProps {
   type: "button" | "submit" | "reset";
   text: string;
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const Button: React.FC<ButtonProps> = ({ type, text, className = "" }) => {
+const Button: React.FC<ButtonProps> = ({
+  type,
+  text,
+  className = "",
+  onClick,
+}) => {
   return (
     <button
       type={type}
+      onClick={onClick}
       className={`ml-[10%] sm:ml-[20%] lg:ml-0 group flex items-center justify-center gap-2
         bg-[#FFDC1C] hover:bg-[#ffab00]
         border border-[#FFDC1C] hover:border-[#ffab00]

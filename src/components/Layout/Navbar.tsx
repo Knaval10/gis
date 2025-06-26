@@ -1,7 +1,7 @@
 import ChevronLeft from "#assets/dynamic/ChevronLeft";
 import { navData } from "#lib/constants/navbarData";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import companyLogo from "#assets/icons/naxa-logo.png";
 import RightArrow from "#assets/dynamic/RightArrow";
 import Button from "#components/common/Button";
@@ -21,6 +21,7 @@ export interface NavItemType {
 }
 
 const Navbar = ({}) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const menuRef = useRef<HTMLLIElement>(null);
@@ -121,6 +122,9 @@ const Navbar = ({}) => {
         </ul>
         <Button
           type={"button"}
+          onClick={() =>
+            window.open("https://naxa.com.np/contact/iamabusiness", "_blank")
+          }
           text={"Let's link"}
           className="font-semibold text-[11.6px] min-[1440px]:text-[15px]"
         />

@@ -1,9 +1,12 @@
+//Modal to show key highlight details
+
 import type { ProjectDetailType } from "#pages/PortfolioPage/PortfolioDetails/KeyHighlightsDetails";
 import "./modalStyle.css";
 interface ProjectModalPropsType {
   item: ProjectDetailType;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 const ProjectModal: React.FC<ProjectModalPropsType> = ({
   item,
   setShowModal,
@@ -27,13 +30,17 @@ const ProjectModal: React.FC<ProjectModalPropsType> = ({
         {" "}
         x
       </div>
-      <div className="overflow-auto bg-white">
+      <div className="overflow-auto bg-white rounded-xl">
         <div className="flex flex-col max-h-[90vh]">
           <section className="flex flex-col lg:flex-row">
-            <figure>
-              <img src={photo} alt="image" />
+            <figure className="w-full h-full max-w-[80%]">
+              <img
+                src={photo}
+                alt="image"
+                className="w-full h-full object-cover"
+              />
             </figure>
-            <article className="flex flex-col gap-3 p-3">
+            <article className="flex flex-col gap-3 pt-6 px-4">
               <div className="flex flex-col gap-[10px]">
                 <h2 className="text-[16.8px] font-semibold">{title}</h2>
                 <p className="text-[11px]">{subtitle}</p>
@@ -65,6 +72,8 @@ const ProjectModal: React.FC<ProjectModalPropsType> = ({
               </div>
             </article>
           </section>
+
+          {/*Parsing of html tags coming from rich text editor. tag based styling is done in external css */}
           <section
             className="p-6 description"
             dangerouslySetInnerHTML={{ __html: description }}

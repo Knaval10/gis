@@ -16,11 +16,13 @@ export interface ControlType {
   setShowControlBox: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+//Vector tiles and map style urls imported from env
 const provinceUrl = import.meta.env.VITE_PROVINCE_TILES_URL;
 const districtUrl = import.meta.env.VITE_DISTRICT_TILES_URL;
 const municipalityUrl = import.meta.env.VITE_MUNICIPALITY_TILES_URL;
 const styleUrl = import.meta.env.VITE_MAP_STYLE_URL;
 
+//Default values and states of map layers visibility controller
 const defaultStyle = {
   fillVisible: true,
   lineVisible: false,
@@ -30,12 +32,15 @@ const defaultStyle = {
 };
 
 const Map: React.FC = () => {
+  //Refs for map style and map
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
 
+  //State for layer selection
   const [selectedLayer, setSelectedLayer] =
     useState<keyof LayersTypes>("province");
 
+  //State for layer visibility control
   const [layerStyles, setLayerStyles] = useState<
     Record<string, typeof defaultStyle>
   >({
@@ -43,7 +48,11 @@ const Map: React.FC = () => {
     district: { ...defaultStyle },
     municipality: { ...defaultStyle },
   });
+
+  //Control box is placed in a drawer at the right side of the map which can be opened and closed on click
   const [showControlBox, setShowControlBox] = useState<boolean>(false);
+
+  //Function to handle the opacity and width of visibility of layer types such as fill and line
   const updateStyle = (
     layerKey: string,
     updates: Partial<typeof defaultStyle>
@@ -86,18 +95,19 @@ const Map: React.FC = () => {
     }));
   };
 
+  //Function to handle showing and hiding of the three layers based on toggle to specific layer
   const handleLayerToggle = (layerKey: keyof LayersTypes) => {
     setSelectedLayer(layerKey);
 
     LayerOptions.forEach(({ value }) => {
       const visibility = value === layerKey ? "visible" : "none";
 
-      mapRef.current?.setLayoutProperty(
+      mapRef?.current?.setLayoutProperty(
         `${value}-fill`,
         "visibility",
         visibility
       );
-      mapRef.current?.setLayoutProperty(
+      mapRef?.current?.setLayoutProperty(
         `${value}-line`,
         "visibility",
         visibility
@@ -107,18 +117,21 @@ const Map: React.FC = () => {
 
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
-
+    //Map initialization using maplibre
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
       style: styleUrl,
-      center: [84.124, 28.3949],
+      center: [84.124, 28.3949], //Center of nepal
       zoom: 6,
     });
 
     mapRef.current = map;
+
+    //Navigation control on bottom right
     map.addControl(new maplibregl.NavigationControl(), "bottom-right");
 
-    map.on("style.load", () => {
+    //For loading sources and layers on map
+    map.on("load", () => {
       map.addSource("province", {
         type: "vector",
         tiles: [provinceUrl],
@@ -132,6 +145,7 @@ const Map: React.FC = () => {
         tiles: [municipalityUrl],
       });
 
+      //Created array of all three to iterate them later based on key
       const layers = [
         {
           key: "province",
@@ -150,6 +164,7 @@ const Map: React.FC = () => {
         },
       ];
 
+      //Iteration over each layer for adding line and fill
       layers.forEach(({ key, fillColor, visible }) => {
         map.addLayer({
           id: `${key}-fill`,
@@ -182,6 +197,7 @@ const Map: React.FC = () => {
       });
     });
 
+    //For mobile responsiveness of map
     map.resize();
     map.fitBounds(
       [
@@ -190,13 +206,22 @@ const Map: React.FC = () => {
       ],
       { duration: 0 }
     );
+
+    //Clearance function to remove map instance on component unmount
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
   }, []);
   return (
     <div className="relative h-screen w-full overflow-x-hidden">
+      {/*Switch to toggle between province, district and municipality to show chosen layer*/}
       <LayerSwitcher
         selectedLayer={selectedLayer}
         setSelectedLayer={handleLayerToggle}
       />
+
+      {/*Conditional rendering of Layer visibility controller on the basis of switch clicked placed on the upper right side of the map */}
       {selectedLayer && (
         <LayerVisibilityController
           showControlBox={showControlBox}
@@ -224,11 +249,13 @@ const Map: React.FC = () => {
           }
         />
       )}
+
+      {/*Switch to open and close the Controller */}
       <ControllerSwitch
         setShowControlBox={setShowControlBox}
         showControlBox={showControlBox}
       />
-      <div ref={mapContainerRef} className="h-full w-full" />
+      <div ref={mapContainerRef} className="h-screen w-full" />
     </div>
   );
 };

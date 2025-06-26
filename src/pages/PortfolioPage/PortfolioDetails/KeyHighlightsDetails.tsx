@@ -2,6 +2,7 @@ import { useState } from "react";
 import ProjectModal from "#components/Modal/ProjectModal";
 import { useFetchProjectsDetails } from "#lib/api/apis";
 import { useParams } from "react-router-dom";
+import Loader from "#components/common/Loader";
 export interface ProjectDetailType {
   id: number;
   title: string;
@@ -17,21 +18,31 @@ const KeyHighlightsDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [showModal, setShowModal] = useState(true);
 
-  const { data: projectDetails } = useFetchProjectsDetails(Number(id));
+  const { data: projectDetails, isLoading: isDetailsLoading } =
+    useFetchProjectsDetails(Number(id));
   const ProjectDetailItem =
     (projectDetails?.length > 0 && projectDetails[0]) || {};
   return (
-    <div>
-      {showModal && ProjectDetailItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black/30 backdrop-blur-xss"
-            onClick={() => setShowModal(false)}
-          ></div>
-          <ProjectModal item={ProjectDetailItem} setShowModal={setShowModal} />
+    <>
+      {isDetailsLoading ? (
+        <Loader className="w-screen" />
+      ) : (
+        <div>
+          {showModal && ProjectDetailItem && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center">
+              <div
+                className="absolute inset-0 bg-black/30 backdrop-blur-xss"
+                onClick={() => setShowModal(false)}
+              ></div>
+              <ProjectModal
+                item={ProjectDetailItem}
+                setShowModal={setShowModal}
+              />
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

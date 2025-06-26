@@ -3,6 +3,7 @@ import TextInput from "#components/Form/TextInput";
 import FileUploader from "#components/Form/FileUploader";
 
 const FormPage: React.FC = () => {
+  //Initial form data
   const initialFormData = {
     name: "",
     address: "",
@@ -11,11 +12,16 @@ const FormPage: React.FC = () => {
     photo: null as File | null,
     cv: null as File | null,
   };
-  const [formData, setFormData] = useState(initialFormData);
 
+  //State to update form fields
+  const [formData, setFormData] = useState(initialFormData);
+  //State for errors
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  //State to handle loading while form is being subimitted
   const [loading, setLoading] = useState(false);
 
+  //Function to handle input change in particular form field
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -32,6 +38,7 @@ const FormPage: React.FC = () => {
     }
   };
 
+  //Function to handle image and cv input
   const handleFileChange =
     (type: "photo" | "cv") => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
@@ -47,16 +54,20 @@ const FormPage: React.FC = () => {
       }
     };
 
+  //Function to handle form submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { name, address, email, contact, photo, cv } = formData;
+
+    //Regex for valid email and phone number
     const emailRegex = /^[a-zA-Z0–9._%+-]+@[a-zA-Z0–9.-]+\.[a-zA-Z]{2,}$/;
 
     const contactRegex = /^\d{10}$/;
 
     let newErrors: { [key: string]: string } = {};
 
+    //Triming each value to prevent error due to whitespaces and checking empty value
     if (!name.trim()) {
       newErrors = { ...newErrors, name: "Name is required" };
     }
@@ -88,12 +99,15 @@ const FormPage: React.FC = () => {
       newErrors = { ...newErrors, cv: "CV is required" };
     }
 
+    //Detect any error
     if (Object.keys(newErrors).length > 0) {
       setErrors((prev) => ({ ...prev, ...newErrors }));
       return;
     }
 
     setLoading(true);
+
+    //Waiting until form is submitted
     setTimeout(() => {
       alert("Form submitted!");
       console.log(formData);

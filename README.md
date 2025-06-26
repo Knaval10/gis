@@ -1,54 +1,85 @@
-# React + TypeScript + Vite
+# NAXA Frontend Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive frontend built with React, TypeScript, Vite, Tailwind CSS, and MapLibre GL. Includes a dynamic portfolio, GIS maps, newsletter subscription, and more.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React + TypeScript + Vite
+- Tailwind CSS
+- MapLibre GL for GIS Maps
+- React Query for data fetching
+- React Router for routing
+- ESLint & Prettier for code style
+- Custom reusable components
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Home Page - Consists of the names with links of three sections: Map, KeyHighlights and Form - Click to navigate to particular page
+- Map Visualization
+  -Provinces, Districts and Municipalities are visualized based on switching respective layers
+  -There is switch at the top to switch to a praticular layer
+  -There is a yellow switch at the right side of map which opens layer visibility controller
+  -layer visibility controller changes the fill color, opacity and line width and opacity
+- Naxa Key highlights page
+  -Click to key highlights to navigate to key highlights
+  -Find cards consisting of highlighted prohects of Naxa
+- Key Highlights Details page
+  -Click on individual project card to navigate the project details in a modal
+- Form Page
+  -Enter the name, address, contact, email, photo and cv and submit. There is proper validation so give time to read the message on error submitting from
+- Loader
+  -Skeleton would be better but loader will engage users until data are fetched
+  -Suspense - Components are imported using React.lazy for code splitting and optimization so that on navigating to particular page loading.. suspense is seen until the component is loaded and rendered
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Folder Structure
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+src/
+├── assets/ # images, icons and dynamic for dynamic svg components
+├── components/ # Reusable UI components
+├── Common/ # Components used on multiple modules
+├── Button/ # Reusable button with customization on style and label
+├── ErrorBoundary/ # Any error on any page will display this
+├── Loader/ # Skeleton would be the best option for version 2. However, loading works fine
+├── PageNotFound/ # Custom UI for incorrect navigation. Most of the navigation may go to this page as all routing are not configured
+├── SubscribeNewsletter # Form with email field with manual validation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    ├── Card/ # ProjectCard to show key highlights
+    ├── Form/ # Form component with manual validation. Navigate using /form
+      ├── FileUploader/ # To upload cv and image
+      ├── TextInput/ # For email, name and phone number
+    ├── Layout # Navbar, Outlet for children pages and Footer (divided based on sections)
+    └── Modal # Renders key highlights details
+    ├── Map/ # Contains map, map logic, layer switcher, and visibility controller
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+├── hooks/ # useRevealOnScroll as custom hook for animation of project cards based on intersection observer
+├── lib/ # Library consisting utilities to be used on multiple cases
+├── api/ # queries, apis, requests (queries are keys for each api fetch, requests is globalized file for api configuration, api has custom hooks for api fetch )
+├── constants/ # For making constant json data
+├── router/ # importing components and setting routes
+├── utils/ # utilities and helper functions
+
+├── Pages
+├── HomePage
+├── MapPage
+├── PortfolioPage
+├── FormPage
+└── App.tsx # All routes are imported with RouterProvider
+└── main.tsx # Entry point
+
+## Environment Variables
+
+VITE_APP_BACKEND_URL=https://admin.naxa.com.np/api
+VITE_PROVINCE_TILES_URL=https://vectortile.naxa.com.np/federal/province.mvt/?tile={z}/{x}/{y}
+VITE_DISTRICT_TILES_URL=https://vectortile.naxa.com.np/federal/district.mvt/?tile={z}/{x}/{y}
+VITE_MUNICIPALITY_TILES_URL=https://vectortile.naxa.com.np/federal/municipality.mvt/?tile={z}/{x}/{y}
+VITE_MAP_STYLE_URL=https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL
+
+## How to use
+
+-Clone the project using bash
+git clone git@github.com:Knaval10/gis.git
+-install dependencies and packages
+yarn install
+-Enter env making .env file
+-Run the app
+yarn dev

@@ -1,0 +1,21 @@
+import React from "react";
+
+const RightArrow = (props: React.SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      width="16"
+      height="17"
+      viewBox="0 0 16 17"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M8 0.243164L6.59 1.65316L12.17 7.24316H0V9.24316H12.17L6.59 14.8332L8 16.2432L16 8.24316L8 0.243164Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+};
+
+export default RightArrow;

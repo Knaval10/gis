@@ -1,4 +1,5 @@
 import { useRevealOnScroll } from "#hooks/useRevealOnScroll";
+import { useNavigate } from "react-router-dom";
 
 export interface PropsType {
   id: number;
@@ -18,7 +19,8 @@ interface ProjectItemType {
 }
 
 const ProjectCard = ({ items, index }: ProjectItemType) => {
-  const { subtitle, title, clients, start_date, end_date, photo } = items;
+  const navigate = useNavigate();
+  const { id, subtitle, title, clients, start_date, end_date, photo } = items;
   const { ref, isVisible } = useRevealOnScroll();
   const bgColor = [
     "#174bdd",
@@ -35,6 +37,7 @@ const ProjectCard = ({ items, index }: ProjectItemType) => {
   return (
     <div
       ref={ref}
+      onClick={() => navigate(`/portfolio/keyhighlights/${id}`)}
       className={`flex flex-col  opacity-0 h-fit hover:transition-transform hover:-translate-y-28 duration-500 ease-in-out hover:shadow-2xl cursor-pointer ${
         isVisible ? "opacity-100 -translate-y-25" : ""
       }`}
@@ -44,7 +47,6 @@ const ProjectCard = ({ items, index }: ProjectItemType) => {
           bgColor[index] === "#efefef" || bgColor[index] === "#f8e1e5"
             ? "#333333"
             : "white",
-        // transitionDelay: `${index * 100}ms`,
       }}
     >
       <section className="flex flex-col gap-5 pt-12 px-8 pb-4">

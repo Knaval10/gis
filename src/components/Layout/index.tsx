@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import SubscribeNewsletter from "#components/common/SubscribeNewsletter";
-import ChevronLeft from "#assets/dynamic/ChevronLeft";
 import { useEffect, useState } from "react";
 import ChevronDown from "#assets/dynamic/ChevronDown";
 

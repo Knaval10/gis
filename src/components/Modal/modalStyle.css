@@ -1,0 +1,36 @@
+.description {
+    font-size: 12.56px;
+}
+
+.description  p{
+   margin-bottom: 15px;
+    color: #333132 ;
+}
+
+.description ul li {
+    position: relative;
+    padding-left: 32px; 
+    list-style: none;   
+    margin-bottom: 15px;
+    padding-top: 4px;
+  }
+  
+  .description ul li::before {
+    content: "✔"; 
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+    background-color: #ffab00; 
+    color: white;              
+    border-radius: 50%;       
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    line-height: 1;
+  }
+  
+

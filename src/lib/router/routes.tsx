@@ -7,3 +7,6 @@ export const PortfolioPage = React.lazy(() => import("#pages/PortfolioPage"));
 export const KeyHighlights = React.lazy(
   () => import("#pages/PortfolioPage/KeyHighlights")
 );
+export const KeyHighlightsDetails = React.lazy(
+  () => import("#pages/PortfolioPage/PortfolioDetails/KeyHighlightsDetails")
+);

@@ -37,7 +37,7 @@ const ContactSection = () => {
             {emails.business}
           </a>
         </article>
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col items-center md:items-start gap-[10px]">
           <h2 className="heading">Chat With Us Now!</h2>
           <div className="flex gap-3.5">
             <figure className="bg-[#15955c] hover:bg-[#117f4b] cursor-pointer rounded-full p-3 h-[46px] w-[46px]">

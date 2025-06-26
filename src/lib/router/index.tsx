@@ -4,6 +4,7 @@ import {
   FormPage,
   HomePage,
   KeyHighlights,
+  KeyHighlightsDetails,
   MapPage,
   PortfolioPage,
 } from "./routes";
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
           {
             path: "keyhighlights",
             Component: KeyHighlights,
+          },
+          {
+            path: "keyhighlights/:id",
+            Component: KeyHighlightsDetails,
           },
         ],
       },

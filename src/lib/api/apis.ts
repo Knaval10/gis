@@ -10,6 +10,6 @@ export const useFetchProjects = () =>
 
 export const useFetchProjectsDetails = (id: number) =>
   useQuery({
-    queryKey: [queries.fetch_projects_details],
+    queryKey: [queries.fetch_projects_details, id],
     queryFn: () => getApi("/projects", { id }),
   });
